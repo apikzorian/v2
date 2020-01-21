@@ -1,0 +1,5 @@
+docker network create --driver bridge face_net
+docker run --name mqtt_broker2 --network face_net -p :1883 -v "$PWD":/hw3 -d az_mosq sh -c "mosquitto -c /hw3/mqtt_broker.conf"
+docker run --name mqtt_forwarder2 --network face_net -v "$PWD":/hw3 -d az_mosq sh -c "mosquitto -c /hw3/mqtt_forwarder.conf"
+
+
