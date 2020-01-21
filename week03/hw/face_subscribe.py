@@ -8,11 +8,16 @@ import sys
 broker_addr = "169.62.51.136"
 output_dir = "./"
     
-# Create methods for connections and subscription of messages
 def on_connect(client, userdata, flags, rc):
-    print("Connected to broker!")
-    print("RC = "+str(rc))
-    client.subscribe("face_app/test")
+    if rc == 0:
+        print("Connection to broker: Success!")
+        client.subscribe("face_detect/my_topic")
+    else:
+        print("Connection to broker: Failed!")
+
+def on_subscribe(client, userdata, mid, granted_qos):
+    print("Subscribed")
+    print("QOS = " + str(granted_qos))
 
 # Start counter
 count = 0
@@ -30,14 +35,16 @@ def on_message(client, userdata, msg):
     file_name = output_dir + "/my_face_" + str(count) + ".png"
     count = count + 1
     
+    print("Saving image: " + str(file_name))
     # Save image
-    cv.imwrite(file_name, face)
+    #cv.imwrite(file_name, face)
     
 # Connect to MQTT client
 client= paho.Client()
-client.connect(broker_addr, 1883, 60)
+client.on_subscribe = on_subscribe
 client.on_connect = on_connect
 client.on_message = on_message
+client.connect(broker_addr, 1883, 60)
 
 # Loop until stream ends
 client.loop_forever()

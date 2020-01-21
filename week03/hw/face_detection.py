@@ -34,8 +34,6 @@ client.loop_start()
 
 # While camera is on, run below
 while(True):
-
-    print("AZ - In while loop")
     # Capture frame-by-frame from feed
     ret, frame = cap.read()
 
@@ -45,17 +43,13 @@ while(True):
     
     for (x,y,w,h) in faces:        
         gray_crop = gray[y:y+h,x:x+w]
-        #print('AZ - Showing crop')
-
         # Show boxed photo
         cv.imshow("Gray Cropped", gray_crop)
-        
-        
+
+        # Try publishing to face_detect/my_topic. If this fails, throw error                
         try:
             # Publish 
-            print('AZ - Start pub')
             client.publish("face_detect/my_topic", bytearray(cv.imencode('.png', gray_crop)[1]), qos=1)
-            print('AZ - End pub')
         except:
             print("Unexpected error:", sys.exc_info()[0])
 
