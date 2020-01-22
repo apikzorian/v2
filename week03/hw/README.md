@@ -2,7 +2,7 @@
 
 
 ### Overall architecture / flow
-(hw03.png).  
+![this](hw03.png).  
 
 
 
