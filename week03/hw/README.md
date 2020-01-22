@@ -55,3 +55,13 @@ From here, I had a bash open to run the following python script:
 python3 face_subscribe.py
 ```
 This script takes all of the messages sent to topic `face_detect/#` and uploads them to my ibm cloud. I used `face_detect/#` as it is a wildcard which allows us to access any level of topics under `face_detect`. I used the ibm SDK to upload my images. Below is a sample of some of the images uploaded.
+
+![this](my_face_0.png)
+![this](my_face_1.png)
+
+Link to images: 
+cos://us-south/apikzorianbucket1/my_face_0.png
+cos://us-south/apikzorianbucket1/my_face_11.png
+
+Link to bucket:
+cos://us-south/apikzorianbucket1/
