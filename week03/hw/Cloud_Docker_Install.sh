@@ -1,3 +1,5 @@
+# Install Docker on Cloud Instance
+
 #!/bin/bash
 apt-get update
 apt-get install \
