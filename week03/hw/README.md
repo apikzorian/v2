@@ -59,7 +59,8 @@ This script takes all of the messages sent to topic `face_detect/#` and uploads 
 ![this](my_face_0.png)
 ![this](my_face_1.png)
 
-Link to images: [here](cos://us-south/apikzorianbucket1/my_face_0.png) and [here](cos://us-south/apikzorianbucket1/my_face_11.png)
+Link to images: https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/my_face_0.png and https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/my_face_11.png
+
 
 Link to bucket:
-[here](cos://us-south/apikzorianbucket1/)
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/
