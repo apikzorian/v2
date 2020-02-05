@@ -36,4 +36,4 @@ docker logs <containerid>
 ```
 
 ### Results
-Training on the V100 took about 1.5 hours, while it took <> on the P100. The AUC was the same in both cases.
+Training on the V100 took about 1.5 hours, while it took 6h on the P100 (4x!). The AUC was 0.97 in both cases.
