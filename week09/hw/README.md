@@ -83,12 +83,25 @@ Below are some images from dockerhub. I saved my `/en-de-transformer` directory 
 BLUE Score
 ![Validation BLEU curve](https://i.ibb.co/g42hJQp/bleu.jpg)
 
+![Validation loss curve](https://i.ibb.co/JdHBvzZ/eval-loss.jpg)
 
-Please submit the nohup.out file along with screenshots of your Tensorboard indicating training progress (Blue score, eval loss) over time.  Also, answer the following (simple) questions:
-* How long does it take to complete the training run? (hint: this session is on distributed training, so it *will* take a while)
+![Learning rate curve](https://i.ibb.co/TmrbKGs/learn-rate.jpg)
+
+![Training loss curve](https://i.ibb.co/T1v9WjT/train-loss.jpg)
+
+![Loss Opt](https://i.ibb.co/0qSzrQY/loss-opt.jpg)
+
+* How long did it take to complete the training run? (hint: this session is on distributed training, so it *will* take a while)
+Training took 23 hours and 23 minutes
+
 * Do you think your model is fully trained? How can you tell?
+I do not think my model is fully trained, because we can see that the BLEU graph is still progressing and the loss is moving towards, but may not have yet reached a minimum.
+
 * Were you overfitting?
+I believe we are beginning to overfit because after 30K steps, we can see that the evaluation loss is flattening out, which leads me to believe that we are overfitting the model.
+
 * Were your GPUs fully utilized?
+
 * Did you monitor network traffic (hint:  ```apt install nmon ```) ? Was network the bottleneck?
 * Take a look at the plot of the learning rate and then check the config file.  Can you explan this setting?
 * How big was your training set (mb)? How many training lines did it contain?
@@ -98,11 +111,9 @@ Please submit the nohup.out file along with screenshots of your Tensorboard indi
 * How does that correlate with the observed network utilization between nodes?
 
 ### Hints
-Your BLEU TB plot should look something like this:
-(bleu2.jpg)
 
 Your loss should be something like:
-![Validation loss curve](loss.JPG)
+
 
 And your learning rate  should be something like:
 ![Learning rate curve](lr.JPG)
