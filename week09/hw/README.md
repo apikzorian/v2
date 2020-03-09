@@ -101,19 +101,26 @@ I do not think my model is fully trained, because we can see that the BLEU graph
 I believe we are beginning to overfit because after 30K steps, we can see that the evaluation loss is flattening out, which leads me to believe that we are overfitting the model.
 
 * Were your GPUs fully utilized?
+I would randomly check the GPU utilization and saw that one of my two machines always had both GPUs at 100%, but the other's GPUs would be mostly utilized but not at 100%:
+
+![GPU Util](https://i.ibb.co/4jsMk88/Screen-Shot-2020-03-07-at-1-33-31-PM.jpg)
+![GPU Util](https://i.ibb.co/MhTX2yM/Screen-Shot-2020-03-07-at-12-40-46-PM.jpg)
 
 * Did you monitor network traffic (hint:  ```apt install nmon ```) ? Was network the bottleneck?
+No, the network was not the bottleneck
+
 * Take a look at the plot of the learning rate and then check the config file.  Can you explan this setting?
+The learning rate demonstartes the size of the step that the model will take while learning. In the LSTM, the learning rate correlates to the context level at each step that the model learns from. We see that as our steps increase, the learning rate decreases. This is because as the model progressively learns more, it takes smaller steps to finetune its learning and improve backpropagation.
+
 * How big was your training set (mb)? How many training lines did it contain?
 * What are the files that a TF checkpoint is comprised of?
+The TF checkpoint contains the model path, each of which contains the weight indexes, the metadata, the best models, and the losses.
+
 * How big is your resulting model checkpoint (mb)?
+852.3 MB
+
 * Remember the definition of a "step". How long did an average step take?
+An average step took 1.687 sec
+
 * How does that correlate with the observed network utilization between nodes?
-
-### Hints
-
-Your loss should be something like:
-
-
-And your learning rate  should be something like:
-![Learning rate curve](lr.JPG)
+The faster the network was, the smaller the step time (in seconds). Thus, we saw a negative correlation between the network speed and the step time.
