@@ -1,43 +1,86 @@
 # Homework 9: Distributed Training and Neural Machine Translation
 
-## Please note that this homework is graded
-### Read up on OpenSeq2Seq
-Nvidia [OpenSeq2Seq](https://github.com/NVIDIA/OpenSeq2Seq/) is a framework for sequence to sequence tasks such as Automatic Speech Recognition (ASR) and Natural Language Processing (NLP), written in Python and TensorFlow. Many of these tasks take a very long to train, hence the need to train on more than one machine.  In this week's lab, we'll be training a [Transformer-based Machine Translation network](https://nvidia.github.io/OpenSeq2Seq/html/machine-translation/transformer.html) on a small English to German WMT corpus.
 
-### Get a pair of GPU VMs in Softlayer
-Follow instructions in [Homework 6](https://github.com/MIDS-scaling-up/v2/tree/master/week06/hw) to get a pair of 2xP-100 or 2xV-100 VMs in Softlayer (remember that V-100s are about 3x faster than P-100s in mixed training). Please use the AC1_16X120X100 flavor for dual P-100 VMs or AC2_16X120X100 flavor for dual V-100 VMs. Call them, for instance, p100a and p100b.  If you are provisioning from our 2263543  image, docker and nvidia-docker will be already installed.  However, you will still need to log into the [Softlayer Portal](http://control.softlayer.com), find your instances under "devices" and "upgrade" them by adding a second 2 TB SAN drive to each VM, then format the 2TB disk and mount it to /data on each VM as described [here](https://github.com/MIDS-scaling-up/v2/blob/master/week03/hw/digits/README.md) under the "prepare the second disk" section.  Once you are finished with the setup, you will have a micro-cluster consisting of 2 nodes and four P-100 or V-100 GPUs total.
+## Objective
+Using Nvidia [OpenSeq2Seq](https://github.com/NVIDIA/OpenSeq2Seq/) framework for sequence to sequence tasks to train a [Transformer-based Machine Translation network](https://nvidia.github.io/OpenSeq2Seq/html/machine-translation/transformer.html) on a small English to German WMT corpus. To do this, we will get a pair of IBM VSI instances with 2 V100 GPUs each.
 
-### Create cloud containers for openseq2seq and distributed training
+## Setup
 
-1. Create an account at https://ngc.nvidia.com/
-1. Follow [these instructions](https://docs.nvidia.com/ngc/ngc-getting-started-guide/index.html#generating-api-key) to create an Nvidia Cloud docker registry API Key, unless you already have one.
-1. Login into one of the VMs and use your API key to login into Nvidia Cloud docker registry
-1. Pull the latest tensorflow image with python3: ```docker pull nvcr.io/nvidia/tensorflow:19.05-py3```
-1. Use the files on [docker directory](docker) to create an openseq2seq image 
-1. Copy the created docker image to the other VM (or repeat the same steps on the other VM) 
-1. Create containers on both VMs: ``` docker run --runtime=nvidia -d --name openseq2seq --net=host -e SSH_PORT=4444 -v /data:/data -p 6006:6006 openseq2seq ```
-1. On each VM, create an interactive bash sesion inside the container: ``` docker exec -ti openseq2seq bash ``` and run the following commands in the container shell:
-    1. Test mpi: ``` mpirun -n 2 -H <vm1 private ip address>,<vm2 private ip address> --allow-run-as-root hostname ``` 
-    1. Pull data to be used in neural machine tranlsation training ([more info](https://nvidia.github.io/OpenSeq2Seq/html/machine-translation.html)):  
-    ``` 
-    cd /opt/OpenSeq2Seq 
-    scripts/get_en_de.sh /data/wmt16_de_en
-    ```
-    1. Copy configuration file to /data directory: ``` cp example_configs/text2text/en-de/transformer-base.py /data ```
-    1. Edit /data/transformer-base.py: replace ```[REPLACE THIS TO THE PATH WITH YOUR WMT DATA]``` with ```/data/wmt16_de_en/```,  in base_parms section replace ```"logdir": "nmt-small-en-de",``` with ```"logdir": "/data/en-de-transformer/",```  make "batch_size_per_gpu": 128, and the in eval_params section set "repeat": to True. 
-    1. If you are using V-100 GPUs, modify the config file to use mixed precision per the instructions in the file and set  "batch_size_per_gpu": 256 (yes, you can fit twice as much data in memory if you are using 16-bit precision)
-    1. Start training -- **on the first VM only:** ```nohup mpirun --allow-run-as-root -n 4 -H <vm1 private ip address>:2,<vm2 private ip address>:2 -bind-to none -map-by slot --mca btl_tcp_if_include eth0  -x NCCL_SOCKET_IFNAME=eth0 -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH  python run.py --config_file=/data/transformer-base.py --use_horovod=True --mode=train_eval & ```
-    1. Note that the above command starts 4 total tasks (-n 4), two on each node (-H <vm1 private ip address>:2,<vm2 private ip address>:2), asks the script to use horovod for communication, which in turn, uses NCCL, and then forces NCCL to use the internal nics on the VMs for communication (-x NCCL_SOCKET_IFNAME=eth0). Mpi is only used to set up the cluster.
-    1. Monitor training progress: ``` tail -f nohup.out ```
-    1. Start tensorboard on the same machine where you started training, e.g. ```nohup tensorboard --logdir=/data/en-de-transformer``` You should be able to monitor your progress by putting http://public_ip_of_your_vm1:6006 !
-    1. *You will run out of credits unless you kill them after 50,000 steps* (the config file will make the model run for 300,000 steps unless you change the max_steps parameter or kill training by hand)
-    1. After your training is done, download your best model to your jetson tx2.  [Hint: it will be located in /data/en-de-transformer on the first VM]  Alternatively, you could always download a checkpoint from Nvidia [here](https://nvidia.github.io/OpenSeq2Seq/html/machine-translation.html)
- 
-### Create the tx2 container for openseq2seq 
-Let us create a tx2 compatible container for OpenSeq2Seq.  We probably won't be able to use it for training, but it could be useful for inference.  Make sure that you have a local TF container in your TX2 that we created when we completed during [HW 5](https://github.com/MIDS-scaling-up/v2/tree/master/week05/hw). (We also have all TF containers posted [in the W251 docker hub](https://cloud.docker.com/u/w251/repository/docker/w251/tensorflow) ). Then, use [this Dockerfile](https://github.com/MIDS-scaling-up/v2/blob/master/week09/hw/docker/arm64/Dockerfile.dev-tx2-4.2_b158-py3) . We will need this container for our in-class lab.  Put your downloaded best trained model someplace onto the external hard drive of your jetson -- e.g. /data/en-de-transformer
+### Creating cloud containers
+I creatd two IBM cloud VMs, each with 2 V100 GPUs
+
+```
+ibmcloud sl vs create --datacenter=lon04 --hostname=v100a --domain=apik.com --image=2263543 --billing=hourly  --network 1000 --key=<my_key> --flavor AC2_16X120X100 –san
+
+ibmcloud sl vs create --datacenter=lon04 --hostname=v100b --domain=apik.com --image=2263543 --billing=hourly  --network 1000 --key=<my_key> --flavor AC2_16X120X100 --san
+```
+I also added 2 TB of storage on each VM, to make sure they would be able to hold the data and models we would be generating. After starting each of the VMs, I mounted these disks using the following steps:
+
+```
+mkdir -m 777 /data
+mkfs.ext4 /dev/xvdc
+# edit /etc/fstab and all this line: /dev/xvdc /data                   ext4    defaults,noatime        0 0
+
+# Mount
+mount /data
+```
+
+After creating an account on https://ngc.nvidia.com/ , I logged in on both of my machines and pulled tensorflow
+
+```
+docker login nvcr.io
+#Username: $oauthtoken
+#Password: API KEY
+docker pull nvcr.io/nvidia/tensorflow:19.05-py3
+```
+
+## Distributed Training
+I cloned our repo and build the `openseq2seq1` image and then created a container on both VMs
+
+```
+git clone https://github.com/MIDS-scaling-up/v2
+cd v2/week09/hw/docker/
+docker build -t openseq2seq .
+
+docker run --runtime=nvidia -d --name openseq2seq --net=host -e SSH_PORT=4444 -v /data:/data -p 6006:6006 openseq2seq
+```
+
+On each VM, i created an interactive bash session and downloaded the data for training
+```
+docker exec -ti openseq2seq bash
+mpirun -n 2 -H <v100a_private_ip>,<v100b_private_ip>--allow-run-as-root hostname
+cd ../opt/OpenSeq2Seq 
+scripts/get_en_de.sh /data/wmt16_de_en
+cp example_configs/text2text/en-de/transformer-base.py /data
+```
+
+Finally, i edited the config file with the following changes:
+1. replace [REPLACE THIS TO THE PATH WITH YOUR WMT DATA] with /data/wmt16_de_en/, 
+in base_parms section replace "logdir": "nmt-small-en-de", with "logdir": "/data/en-de-transformer/", 
+1. make "batch_size_per_gpu": 128
+1. in eval_params section set "repeat": to True.
+1. Modify the config file to use mixed precision per the instructions in the file
 
 
-### Submission
+I also changed the step limit to 50,000, so as to avoid running out of credits. Once these changes were made, I ran the following on the `v100a` instance:
+
+```
+nohup mpirun --allow-run-as-root -n 4 -H <v100a_private_ip>:2,<v100b_private_ip>:2 -bind-to none -map-by slot --mca btl_tcp_if_include eth0 -x NCCL_SOCKET_IFNAME=eth0 -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH python run.py --config_file=/data/transformer-base.py --use_horovod=True --mode=train_eval &
+```
+
+
+
+## Setbacks while running 
+During training, I was unable to start tensorboard from my instance, so the only way I was able to monitor my training was by monitoring the nohup.out file.
+
+Leading up to my succesful training, I had many issues reaching the training stage which took several days. First, I was unable to get two machines with 2 V100 GPUs at the same time. I would start my machines and run `nvidia-smi` each time, but I was constantly faced with the issue where only one of them would have a GPU, or I would get an error running `nvidia-smi`. The eventual solution was to change my machine's location from was04 to lon04
+
+Another issue I had was that I would reach the training stage and and right after running the `nohip mpirun` step, I would receive a message that said `nohup: ignoring input and appending output to nohup.out` I turned out that this could be solved by removing a space I had after the comma separating `<v100a_private_ip>:2,<v100b_private_ip>:2`. Luckily, I was informed via slack by another student of this fix.
+
+## Results
+
+
+
 
 Please submit the nohup.out file along with screenshots of your Tensorboard indicating training progress (Blue score, eval loss) over time.  Also, answer the following (simple) questions:
 * How long does it take to complete the training run? (hint: this session is on distributed training, so it *will* take a while)
