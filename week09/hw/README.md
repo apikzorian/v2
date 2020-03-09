@@ -78,7 +78,10 @@ Another issue I had was that I would reach the training stage and and right afte
 
 ## Results
 
+Below are some images from dockerhub. I saved my `/en-de-transformer` directory and copied it to my local machine, from where I was able to start tensorboard to capture these plots:
 
+BLUE Score
+![Validation BLEU curve](https://i.ibb.co/g42hJQp/bleu.jpg)
 
 
 Please submit the nohup.out file along with screenshots of your Tensorboard indicating training progress (Blue score, eval loss) over time.  Also, answer the following (simple) questions:
@@ -96,7 +99,7 @@ Please submit the nohup.out file along with screenshots of your Tensorboard indi
 
 ### Hints
 Your BLEU TB plot should look something like this:
-![Validation BLEU curve](bleu2.jpg)
+(bleu2.jpg)
 
 Your loss should be something like:
 ![Validation loss curve](loss.JPG)
