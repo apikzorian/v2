@@ -95,26 +95,38 @@ BLUE Score
 Training took 23 hours and 23 minutes
 
 * Do you think your model is fully trained? How can you tell?
-I do not think my model is fully trained, because we can see that the BLEU graph is still progressing and the loss is moving towards, but may not have yet reached a minimum.
+I do not think my model is fully trained, because we can see that the BLEU graph is still progressing and the loss is moving towards, but may not have yet reached a minimum. Also, I stopped my training at 50,000 steps, which may have been too soon.
 
 * Were you overfitting?
-I believe we are beginning to overfit because after 30K steps, we can see that the evaluation loss is flattening out, which leads me to believe that we are overfitting the model.
+I believe we were beginning to overfit because after 30K steps, we can see that the evaluation loss is flattening out, which leads me to believe that we are overfitting the model.
 
 * Were your GPUs fully utilized?
 I would randomly check the GPU utilization and saw that one of my two machines always had both GPUs at 100%, but the other's GPUs would be mostly utilized but not at 100%:
 
-![GPU Util](https://i.ibb.co/4jsMk88/Screen-Shot-2020-03-07-at-1-33-31-PM.jpg)
+V100b's GPUs utilized at less than 100%, V100b's GPUs utilized fully at 100% each
 ![GPU Util](https://i.ibb.co/MhTX2yM/Screen-Shot-2020-03-07-at-12-40-46-PM.jpg)
+
+An hour later, V100a's GPUs utilized at 100%, V100b's GPUs at less than 100%
+![GPU Util](https://i.ibb.co/4jsMk88/Screen-Shot-2020-03-07-at-1-33-31-PM.jpg)
+
 
 * Did you monitor network traffic (hint:  ```apt install nmon ```) ? Was network the bottleneck?
 No, the network was not the bottleneck
 
 * Take a look at the plot of the learning rate and then check the config file.  Can you explan this setting?
-The learning rate demonstartes the size of the step that the model will take while learning. In the LSTM, the learning rate correlates to the context level at each step that the model learns from. We see that as our steps increase, the learning rate decreases. This is because as the model progressively learns more, it takes smaller steps to finetune its learning and improve backpropagation.
+The learning rate demonstartes the size of the step that the model will take while learning. In the LSTM, the learning rate correlates to the context level at each step that the model learns from. We see that as our steps increase, the learning rate decreases. The model has progressively learned more, and it takes smaller steps to finetune its learning and improve backpropagation.
 
 * How big was your training set (mb)? How many training lines did it contain?
+
+
 * What are the files that a TF checkpoint is comprised of?
-The TF checkpoint contains the model path, each of which contains the weight indexes, the metadata, the best models, and the losses.
+The TF checkpoint contains:
+
+1. The model paths
+2. The best models directory
+3. The metadata (.meta)
+4. The weight indexes (.index)
+5. The Losses
 
 * How big is your resulting model checkpoint (mb)?
 852.3 MB
