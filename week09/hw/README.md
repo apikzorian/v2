@@ -55,10 +55,9 @@ cp example_configs/text2text/en-de/transformer-base.py /data
 ```
 
 Finally, i edited the config file with the following changes:
-1. replace [REPLACE THIS TO THE PATH WITH YOUR WMT DATA] with /data/wmt16_de_en/, 
-in base_parms section replace "logdir": "nmt-small-en-de", with "logdir": "/data/en-de-transformer/", 
-1. make "batch_size_per_gpu": 128
-1. in eval_params section set "repeat": to True.
+1. Replace [REPLACE THIS TO THE PATH WITH YOUR WMT DATA] with /data/wmt16_de_en/
+1. In base_parms section, replace "logdir": "nmt-small-en-de", with "logdir": "/data/en-de-transformer/", 
+1. In eval_params section set "repeat": to True.
 1. Modify the config file to use mixed precision per the instructions in the file
 
 
