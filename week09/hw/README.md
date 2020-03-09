@@ -83,12 +83,16 @@ Below are some images from dockerhub. I saved my `/en-de-transformer` directory 
 BLUE Score
 ![Validation BLEU curve](https://i.ibb.co/g42hJQp/bleu.jpg)
 
+Validation Loss Curve
 ![Validation loss curve](https://i.ibb.co/JdHBvzZ/eval-loss.jpg)
 
+Learning Rate Curve
 ![Learning rate curve](https://i.ibb.co/TmrbKGs/learn-rate.jpg)
 
+Training Loss Curve
 ![Training loss curve](https://i.ibb.co/T1v9WjT/train-loss.jpg)
 
+Loss Opt
 ![Loss Opt](https://i.ibb.co/0qSzrQY/loss-opt.jpg)
 
 * How long did it take to complete the training run? (hint: this session is on distributed training, so it *will* take a while)
@@ -129,6 +133,7 @@ The TF checkpoint contains:
 5. The Losses
 
 * How big is your resulting model checkpoint (mb)?
+
 852.3 MB
 
 * Remember the definition of a "step". How long did an average step take?
