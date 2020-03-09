@@ -115,22 +115,22 @@ An hour later, V100a's GPUs utilized at 100%, V100b's GPUs at less than 100%
 
 
 * Did you monitor network traffic (hint:  ```apt install nmon ```) ? Was network the bottleneck?
-No, the network was not the bottleneck
+I did monitor the network traffic during training. I noticed that the network was not throteling, as I was seeing network read/write speeds of over 200 MB/s, which was much higher than I had been provisioned. The fact that I was not being throteled leads me to believe that the network was not a bottleneck.
 
 * Take a look at the plot of the learning rate and then check the config file.  Can you explan this setting?
-The learning rate demonstartes the size of the step that the model will take while learning. In the LSTM, the learning rate correlates to the context level at each step that the model learns from. We see that as our steps increase, the learning rate decreases. The model has progressively learned more, and it takes smaller steps to finetune its learning and improve backpropagation.
+The learning rate demonstartes the size of the step that the model will take while learning. The learning rate starts to increase leanearly, and then decreases slowly after about 10k steps. In the `Attention is All you Need` paper, they begin by increasing learning rate for the first 4000 `warmp_steps` and then decrease it proportionally ot the inverse square root of the step number. In our case, we can see that in the config file th `warm_up` steps value is set to 8000. In the LSTM, the learning rate correlates to the context level at each step that the model learns from. As our steps increase, we want the learning rate to decrease, and in turn the step sizes to go down so that the model can more precisely perform backpropagation. As the model progresses more, it takes smaller steps to finetune its learning and improve backpropagation.
 
 * How big was your training set (mb)? How many training lines did it contain?
-
+`train.de` was 710 MB and `train.en` was 636 MB. Both datasets have 4561202 lines
 
 * What are the files that a TF checkpoint is comprised of?
 The TF checkpoint contains:
 
 1. The model paths
-2. The best models directory
-3. The metadata (.meta)
-4. The weight indexes (.index)
-5. The Losses
+2. The best models directory, which contains the best performing models
+3. The metadata (.meta), which describes the graph structures
+4. The weight indexes (.index), which is a table where each key is a tensor name and each value is the metadata of the tensor
+5. The Losses at different checkpoints
 
 * How big is your resulting model checkpoint (mb)?
 
