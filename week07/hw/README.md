@@ -28,7 +28,7 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
   - My implementation's frames per second increased more and more as more frames were captured, with a high of 6.5 frames per second, which is about what I was getting with my OpenCV implementation (6.3 fps). The problem is that there is a "warm up" period where the model is loaded and the inference step also takes time. This results in a bottleneck that I did not experience when I used the OpenCV implementation from HW3.
 
 * Which is a better quality detector: the OpenCV or yours?
-  - I believe the OpenCV was the better quality detector
+  - I believe the OpenCV was the better quality detector.
 
 ### To turn in:
 
