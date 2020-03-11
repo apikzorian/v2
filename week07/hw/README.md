@@ -19,9 +19,16 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
 
 ### Questions
 * Describe your solution in detail.  What neural network did you use? What dataset was it trained on? What accuracy does it achieve?
+  - My solution runs through the same pipeline as homework 7, but rather than using OpenCV's face cascade classifier to detect faces, I used a neural network. Specifically, I utilized the mobilenet SSD(single shot multibox detector) based face detector from [yeephycho](https://github.com/yeephycho/tensorflow-face-detection). This was trained on the trained [WIDERFACE dataset](http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/). I was able to get above 90% accuracy if my face was directly in front of the camera.
+  
 * Does it achieve reasonable accuracy in your empirical tests? Would you use this solution to develop a robust, production-grade system?
+  - This does achieve reasonable accuracy in my epirical tests, but not high enough to use in a production-grade system
+
 * What framerate does this method achieve on the Jetson? Where is the bottleneck?
+  - My implementation's frames per second increased more and more as more frames were captured, with a high of 6.5 frames per second, which is about what I was getting with my OpenCV implementation (6.3 fps). The problem is that there is a "warm up" period where the model is loaded and the inference step also takes time. This results in a bottleneck that I did not experience when I used the OpenCV implementation from HW3.
+
 * Which is a better quality detector: the OpenCV or yours?
+  - I believe the OpenCV was the better quality detector
 
 ### To turn in:
 
