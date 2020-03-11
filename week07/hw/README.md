@@ -15,7 +15,16 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
 `hw07-hint.ipynb` was provided to us as a hint on how to read in a pretrained model for face detection
 The rest of the files are from hw03 for setting up my mosquitto client and broker. Below are a few examples of face detections from my implementation:
 
+![Image 1](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_0.png)
+![Image 2](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_16.png)
+![Image 3](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_12.png)
 
+Links:
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_0.png
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_16.png
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_12.png
+
+All images can be found under: https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud
 
 ### Questions
 * Describe your solution in detail.  What neural network did you use? What dataset was it trained on? What accuracy does it achieve?
