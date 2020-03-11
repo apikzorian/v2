@@ -2,7 +2,7 @@
 
 ### Overview
 The objective of this homework is simple: modify the processing pipeline that you implemented in 
-[homework 3](https://github.com/MIDS-scaling-up/v2/blob/master/week03/hw/README.md) and replace the OpenCV-based face detector with 
+[homework 3](https://github.com/apikzorian/v2/tree/master/week03/hw/README.md) and replace the OpenCV-based face detector with 
 a Deep Learning-based one. You could, for instance, rely on what you learned in 
 [TensorRT lab 5](https://github.com/MIDS-scaling-up/v2/blob/master/week05/labs/lab_tensorrt.md) or 
 [Digits lab 5](https://github.com/MIDS-scaling-up/v2/blob/master/week05/labs/lab_digits.md)
@@ -15,7 +15,7 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
 `hw07-hint.ipynb` was provided to us as a hint on how to read in a pretrained model for face detection
 
 ### Setup
-After starting my cloud instances (refer to [homework3](https://github.com/apikzorian/v2/tree/master/week03/hw)) and mosquitto client and broker, I built my docker image and started my container
+After starting my cloud instances (refer to [homework 3](https://github.com/apikzorian/v2/tree/master/week03/hw)) and mosquitto client and broker, I built my docker image and started my container
 
 ```
 docker build --network=host -t hw07 -f Dockerfile.hw07 .
