@@ -13,10 +13,9 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
 `Dockerfile.hw07` is the Dockerfile I used to make my container. It is essentially the same as the Dockerfile from the week05 Tensorrt lab, but I added the mosquitto client and OpenCV library installs
 `hw07_files` contain the files I copied into my docker container
 `hw07-hint.ipynb` was provided to us as a hint on how to read in a pretrained model for face detection
-The rest of the files are from hw03 for setting up my mosquitto client and broker. 
 
 ### Setup
-After starting my cloud instances (refer to HW03) and mosquitto client and broker, I built my docker image and started my container
+After starting my cloud instances (refer to [homework3](https://github.com/apikzorian/v2/tree/master/week03/hw)) and mosquitto client and broker, I built my docker image and started my container
 
 ```
 docker build --network=host -t hw07 -f Dockerfile.hw07 .
