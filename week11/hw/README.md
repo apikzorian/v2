@@ -39,18 +39,9 @@ Results:
 ```
 Total successes are:  22
 ```
-
-
-```
-At step  50000
-reward:  -0.1858525493990155
-total rewards  244.11681345794963
-```
-
-
 #### Round 2: 
 
-Next, I tried lowering the training threshold from 3000 to 300 and also changed the optimizer from adam to adamax. 
+Next, I tried lowering the training threshold from 3000 to 300 and also changed the optimizer from adam to adamax. The idea of lowering the training threshold would be to start training earlier, thereby getting more training cycles out of our model with the hopes that it will be able to learn more and get more landings. The Adamax optimizer works well with sparse parameter updates, and the gradient term is ignored when it is small, allowing less gradient noise effect to the parameters.
 
 in run_lunar_lander.py
 ```
@@ -76,7 +67,7 @@ Total successes are:  31
 
 ### Round 3:
 
-Finally, I decided to increase the complexity of the model. By doing this, I hoped to have a better accuracy and get the most succesful landings possible
+Finally, I decided to increase the complexity of the model. By doing this, I hoped to have a better accuracy and get the most succesful landings possible. I added another layer and increased the nodes.
 
 ```
 def nnmodel(input_dim):
@@ -92,14 +83,31 @@ def nnmodel(input_dim):
 
 Result:
 
+```
+Total successes are:  36
+```
+
+### Other changes
+
+I found the following code on the #w251 slack channel by Austin Doolittle, which showed a way to speed up the runs:
+
+```
+a_candidates = np.random.uniform(low=-1, high=1, size=(batch_size, 2))
+s_expanded = np.broadcast_to(new_s, (batch_size, 8))
+all_candidates = np.concatenate([s_expanded, a_candidates], axis=1)
+r_pred = model.predict(all_candidates)
+
+max_idx = np.argmax(r_pred)
+a = a_candidates[max_idx]
+```
+
+Replacing this code for the action candidate generation code helped me really cut down on my runtime, as I was able to get results for the 50,000 iterations in 5 hours (previously, it took almost 11 hours).
+
+I also tried decreasing the number of iterations to see if this would help with my results, as I assumed it would result in less overfitting. However, this gave me worse results, as I was unable to get more than 25 landings (I was able to get 31 with 50000 iterations and lowering the training threshold to 300).
 
 ### Conclusion
+I was able to get improved results by lowering the training threshold and letting my model start training earlier in the workflow. This way, it was able to get more training cycles in the run and did result in more succesful landings. The key change that I made was adding a layer and adding more nodes to the layers of my model. This allowed for a more complex neural network that was able to make improved classificactions and finally gave me the best result of all of my configurations. While we were told to play with the number of total iterations, my experience was that decreasing these iterations resulted in worse results, and I believe maintaining 50,000 iterations was fine as long as we were able to lower the training threshold and work with a more complex model.
 
-
-### Did you try any other changes that made things better or worse? Did they improve or degrade the model?
-
-
-### Based on what you observed, what conclusions can you draw about the different parameters and their values?
 
 
 #### Enable http access to Cloud Object Storage
