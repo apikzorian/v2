@@ -30,6 +30,7 @@ I began with the standard setting for the run
 Results:
 ```
 Total successes are:  22
+Model final loss: 202.158
 ```
 #### Round 2: 
 
@@ -54,6 +55,7 @@ def nnmodel(input_dim):
 Results:
 ```
 Total successes are:  31
+Model final loss: 151.5163
 ```
 
 
@@ -76,7 +78,8 @@ def nnmodel(input_dim):
 Result:
 
 ```
-Total successes are:  36
+Model final loss:  114.8445
+Total successes are:  40
 ```
 
 ### Other changes
