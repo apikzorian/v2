@@ -18,18 +18,10 @@ sudo docker run -it --rm --net=host --runtime nvidia  -e DISPLAY=$DISPLAY -v /tm
 
 You will have a lot of mp4 files in `/tmp/videos` on your TX2. You can use VLC to watch the videos of your landing attempts to see the improvement of your model over the iterations.
 
-## Results
-You should upload two or three videos showing your best model to Cloud Object Storage and provide links using the instructions below.
-
-Also, submit a write-up of the tweaks you made to the model and the effect they had on the results. What parameters did you change? Did they improve or degrade the model?
-
-Grading is based on the changes made and the observed output, not on the accuracy of the model.
-
-We will compare results in class.
 
 ## Results
 
-### What parameters did you change? What values did you try? 
+### Trials (Parameters tuning):
 
 #### Round 1: Default 
 
