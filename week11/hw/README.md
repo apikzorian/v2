@@ -2,7 +2,7 @@
 
 ## Intro
 
-In this homework, I training a Lunar Lander to land properly **using my Jetson TX2**
+In this homework, I trained a Lunar Lander to land properly **using my Jetson TX2**
 
 There are two python scripts used for this process. The first file, `lunar_lander.py`, defines the Lunar Lander for OpenAI Gym. It also defines the keras model. The second file, `run_lunar_lander.py`, instantiates the Lunar Lander environment and runs it.
 
