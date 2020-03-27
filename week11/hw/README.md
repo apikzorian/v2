@@ -106,21 +106,11 @@ Replacing this code for the action candidate generation code helped me really cu
 I also tried decreasing the number of iterations to see if this would help with my results, as I assumed it would result in less overfitting. However, this gave me worse results, as I was unable to get more than 25 landings (I was able to get 31 with 50000 iterations and lowering the training threshold to 300).
 
 ### Conclusion
-I was able to get improved results by lowering the training threshold and letting my model start training earlier in the workflow. This way, it was able to get more training cycles in the run and did result in more succesful landings. The key change that I made was adding a layer and adding more nodes to the layers of my model. This allowed for a more complex neural network that was able to make improved classificactions and finally gave me the best result of all of my configurations. While we were told to play with the number of total iterations, my experience was that decreasing these iterations resulted in worse results, and I believe maintaining 50,000 iterations was fine as long as we were able to lower the training threshold and work with a more complex model.
+I was able to get improved results by lowering the training threshold and letting my model start training earlier in the workflow. This way, it was able to get more training cycles in the run and did result in more succesful landings. The key change that I made was adding a layer and adding more nodes to the layers of my model. This allowed for a more complex neural network that was able to make improved classificactions and finally gave me the best result of all of my configurations. I also got better results when changing my optimizer from adam to adamax. While we were told to play with the number of total iterations, my experience was that decreasing these iterations resulted in worse results, and I believe maintaining 50,000 iterations was fine as long as we were able to lower the training threshold and work with a more complex model.
 
 
+You can find clips from my best model using the links below:
 
-#### Enable http access to Cloud Object Storage
-
-```
-Here's how to enable http access to the S3 COS:
-1) create a bucket & upload a file, remember the resiliency you pick and the location
-2) Go to Buckets -> Access Policies -> Public Access
-3) click the "Create access policy" button
-4) Go to Endpoint (on the left menu) and select your resiliency to find your endpoint (mine was "Regional" because that's how I created my COS)
-5) Your endpoint is the Public location plus your bucket name plus the file
-
-Example: https://s3.eu-gb.cloud-object-storage.appdomain.cloud/brooklyn-artifacts/IBM_MULTICLOUD_MANAGER_3.1.2_KLUS.tar.gz
-
-In this example, the bucket is "brooklyn-artifacts" and the single Region is eu-gb
-```
+http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame25000.mp4
+http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame37000.mp4
+http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame42000.mp4
