@@ -29,9 +29,17 @@ We will compare results in class.
 
 ## Results
 
-### What parameters did you change? 
+### What parameters did you change? What values did you try? 
 
 #### Round 1: Default 
+
+I began with the standard setting for the run
+
+Results:
+```
+Total successes are:  22
+```
+
 
 ```
 At step  50000
@@ -39,9 +47,54 @@ reward:  -0.1858525493990155
 total rewards  244.11681345794963
 ```
 
-### Round 2: 
 
-### What values did you try? 
+#### Round 2: 
+
+Next, I tried lowering the training threshold from 3000 to 300 and also changed the optimizer from adam to adamax. 
+
+in run_lunar_lander.py
+```
+training_thr = 300
+```
+
+in lunar_lander.py
+```
+def nnmodel(input_dim):
+    model = Sequential()
+    model.add(Dense(32, input_dim=input_dim, activation='relu'))
+    model.add(Dense(16, activation='sigmoid'))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+    return model
+```
+
+Results:
+```
+Total successes are:  31
+```
+
+
+### Round 3:
+
+Finally, I decided to increase the complexity of the model. By doing this, I hoped to have a better accuracy and get the most succesful landings possible
+
+```
+def nnmodel(input_dim):
+    model = Sequential()
+    model.add(Dense(64, input_dim=input_dim, activation='relu'))
+    model.add(Dense(64, input_dim=input_dim, activation='relu'))
+    model.add(Dense(32, activation='sigmoid'))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error', optimizer='adamax', metrics=['accuracy'])
+    return model
+
+```
+
+Result:
+
+
+### Conclusion
+
 
 ### Did you try any other changes that made things better or worse? Did they improve or degrade the model?
 
