@@ -103,6 +103,6 @@ I was able to get improved results by lowering the training threshold and lettin
 
 You can find clips from my best model using the links below:
 
-http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame25000.mp4
-http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame37000.mp4
-http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame42000.mp4
+* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame25000.mp4
+* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame37000.mp4
+* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame42000.mp4
