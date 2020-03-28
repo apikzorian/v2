@@ -27,7 +27,7 @@ You will have a lot of mp4 files in `/tmp/videos` on your TX2. You can use VLC t
 
 I began with the standard setting for the run
 
-Results:
+**Result**
 ```
 Total successes are:  22
 Model final loss: 202.158
@@ -52,7 +52,7 @@ def nnmodel(input_dim):
     return model
 ```
 
-Results:
+**Result**
 ```
 Total successes are:  31
 Model final loss: 151.5163
@@ -75,11 +75,11 @@ def nnmodel(input_dim):
 
 ```
 
-Result:
+**Result**
 
 ```
-Model final loss:  114.8445
 Total successes are:  45
+Model final loss:  114.8445
 ```
 
 
