@@ -83,12 +83,13 @@ Model final loss:  114.8445
 ```
 
 
-Tracking the loss, we also so that the final loss of our best model was lower than the previous models meaning, showing that the more compelx model was able to minimize error better than our prior models.
+We see that the final loss of our best model was lower than the previous models, meaning the more compelx model was able to minimize error better, which lead to more succesful landings.
 
 ### Other changes
 
 I found the following code on the #w251 slack channel by Austin Doolittle, which showed a way to speed up the runs:
 
+in `run_lunad_lander.py`
 ```
 a_candidates = np.random.uniform(low=-1, high=1, size=(batch_size, 2))
 s_expanded = np.broadcast_to(new_s, (batch_size, 8))
@@ -101,7 +102,7 @@ a = a_candidates[max_idx]
 
 Replacing this code for the action candidate generation code helped me really cut down on my runtime, as I was able to get results for the 50,000 iterations in 5 hours (previously, it took almost 11 hours).
 
-I also tried decreasing the number of iterations to see if this would help with my results, as I assumed it would result in less overfitting. However, this gave me worse results, as I was unable to get more than 25 landings (I was able to get 31 with 50000 iterations and lowering the training threshold to 300).
+I also tried decreasing the number of iterations to see if this would help with my results, as I assumed it would lead to less overfitting. However, this gave me worse results, as I was unable to get more than 25 landings.
 
 ### Conclusion
 I was able to get improved results by lowering the training threshold and letting my model start training earlier in the workflow. This way, it was able to get more training cycles in the run and did result in more succesful landings. The key change that I made was adding a layer and adding more nodes to the layers of my model. This allowed for a more complex neural network that was able to make improved classificactions and finally gave me the best result of all of my configurations. I also got better results when changing my optimizer from adam to adamax. While we were told to play with the number of total iterations, my experience was that decreasing these iterations resulted in worse results, and I believe maintaining 50,000 iterations was fine as long as we were able to lower the training threshold and work with a more complex model.
