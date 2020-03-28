@@ -79,8 +79,11 @@ Result:
 
 ```
 Model final loss:  114.8445
-Total successes are:  40
+Total successes are:  45
 ```
+
+
+Tracking the loss, we also so that the final loss of our best model was lower than the previous models meaning, showing that the more compelx model was able to minimize error better than our prior models.
 
 ### Other changes
 
@@ -107,5 +110,5 @@ I was able to get improved results by lowering the training threshold and lettin
 You can find clips from my best model using the links below:
 
 * http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame25000.mp4
-* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame37000.mp4
-* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame42000.mp4
+* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame31000.mp4
+* http://s3.us-east.cloud-object-storage.appdomain.cloud/zorianw251hw11/frame46000.mp4
