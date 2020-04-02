@@ -21,6 +21,8 @@ I trained using [these instructions](https://github.com/dusty-nv/jetson-inferenc
 
 ## Results
 
+Training log can be seen in `train.log`
+
 It took 32057.062 seconds to train the model. My final accuracies were Acc@1 56.83	Acc@5  86.08.
 
 I was unable to increase the batch size, as I got memory errors (out of memory)
