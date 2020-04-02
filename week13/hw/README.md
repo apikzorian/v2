@@ -1,6 +1,6 @@
 # Homework 13: Deep Learning SDK (the unofficial one, by Dustin Franklin)
 
-We find that Dusty's repo has been one of the best places to find cool examples and cool code for doing something practical, so hopefully you'll enjoy it as well.  In this homework, you'll be using transfer learning to create a model that classifies plants, directly on your TX2!
+In this homework, used transfer learning to create a model that classifies plants, directly on my TX2
 
 ## Setting up
 
@@ -17,18 +17,16 @@ docker run --rm --privileged -v /tmp:/tmp -v /data:/data -v /var:/var -v /home/n
 * Swap should also be already set up for you ( we did this in homework 1)
 
 ## Training the model
-We suggest that you generally follow [these instructions](https://github.com/dusty-nv/jetson-inference/blob/master/docs/pytorch-plants.md) to train ResNet-18 on the PlantCLEF dataset.  Just a few notes:
-* Review the [train script](https://github.com/dusty-nv/pytorch-imagenet/blob/master/train.py)
-* Once again, please use python3 for all commands
-* Note that in the instructions above, you passed through /data to your container.  Create the dataset directory, download the dataset / uncompress there.
-* Train for 100 epochs 
-* You are running on the tx2, so the training will take less time than on the nano (which is what Dusty benchmarked on)
+I trained using [these instructions](https://github.com/dusty-nv/jetson-inference/blob/master/docs/pytorch-plants.md) to train ResNet-18 on the PlantCLEF dataset.  I trained on 100 epochs
 
-## To submit
-Please submit the time it took you to train the model along with the final accuracy top1/top5 that you were able to achieve. Could you increase the batch size? Why? How long did the training take you? Please save your trained model, we'll use it for the lab.
+## Results
 
+It took 32057.062 seconds to train the model. My final accuracies were Acc@1 56.83	Acc@5  86.08.
 
-Credit / no credit only
+I was unable to increase the batch size, as I got memory errors (out of memory)
+
+Model has been saved.
+
 
 
 
