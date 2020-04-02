@@ -49,6 +49,6 @@ RUN ./install.sh python3
 RUN mkdir /src
 
 COPY hw07_files /src/data
-COPY camera.py /src/camera.py
+COPY face_detect_nn.py /src/face_detect_nn.py
 
 WORKDIR "/src"

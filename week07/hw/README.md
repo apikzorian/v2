@@ -2,20 +2,45 @@
 
 ### Overview
 The objective of this homework is simple: modify the processing pipeline that you implemented in 
-[homework 3](https://github.com/MIDS-scaling-up/v2/blob/master/week03/hw/README.md) and replace the OpenCV-based face detector with 
+[homework 3](https://github.com/apikzorian/v2/tree/master/week03/hw/README.md) and replace the OpenCV-based face detector with 
 a Deep Learning-based one. You could, for instance, rely on what you learned in 
 [TensorRT lab 5](https://github.com/MIDS-scaling-up/v2/blob/master/week05/labs/lab_tensorrt.md) or 
 [Digits lab 5](https://github.com/MIDS-scaling-up/v2/blob/master/week05/labs/lab_digits.md)
 
-### Hints
-* You have the freedom to choose the neural network that does the detection, but don't overthink it; this is a credit / no credit assignment that is not supposed to take a lot of time.
-* There is no need to train the network in this assignment, just find and use a pre-trained model that is trained on a face dataset.
-* Your neural detector should run on the Jetson.
-* Just like the OpenCV detector, your neural detector needs to take a frame as input and return an array of rectangles for each face detected.
-* Most neural object detectors operate on a frame of a given size, so you may need to resize the frame you get from your webcam to that resolution.
-* Note that face detection is not the same as face recognition; you don't need to discriminate between different faces
-* Here's a [sample notebook](hw07-hint.ipynb) that loads and uses [one face detector](https://github.com/yeephycho/tensorflow-face-detection)
-* A more graceful solution would involve using a face detector from [TensorFlow's Model Zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md) -- [this network](http://download.tensorflow.org/models/object_detection/facessd_mobilenet_v2_quantized_320x320_open_image_v4.tar.gz), to be exact, but at the moment, simply loading it as we did in [TensorRT lab 5](https://github.com/MIDS-scaling-up/v2/blob/master/week05/labs/lab_tensorrt.md)  does not work due to [this bug](https://stackoverflow.com/questions/53563976/tensorflow-object-detection-api-valueerror-anchor-strides-must-be-a-list-wit)
+
+### Files
+`face_detect_nn.py` is my implementation of the face detection from hw03 but using a Neural Network, rather than OpenCV
+`Dockerfile.hw07` is the Dockerfile I used to make my container. It is essentially the same as the Dockerfile from the week05 Tensorrt lab, but I added the mosquitto client and OpenCV library installs
+`hw07_files` contain the files I copied into my docker container
+`hw07-hint.ipynb` was provided to us as a hint on how to read in a pretrained model for face detection
+
+### Setup
+After starting my cloud instances (refer to [homework 3](https://github.com/apikzorian/v2/tree/master/week03/hw)) and mosquitto client and broker, I built my docker image and started my container
+
+```
+docker build --network=host -t hw07 -f Dockerfile.hw07 .
+
+docker run --user=root --env="DISPLAY" --name face_detect --privileged --network face_net -v "$PWD":/hw3_vol -v="/tmp/.X11-unix:/tmp/.X11-unix:rw" -ti hw07 bash
+```
+
+From there, I ran the following
+```
+python3 face_detect_nn.py
+```
+
+### Results
+Below are a few examples of face detections from my implementation:
+
+![Image 1](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_0.png)
+![Image 2](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_16.png)
+![Image 3](https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_12.png)
+
+Links:
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_0.png
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_16.png
+https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud/apik_face_hw07_12.png
+
+All images can be found under: https://apikzorianbucket1.s3.us-south.cloud-object-storage.appdomain.cloud
 
 ### Questions
 * Describe your solution in detail.  What neural network did you use? What dataset was it trained on? What accuracy does it achieve?
@@ -28,7 +53,7 @@ a Deep Learning-based one. You could, for instance, rely on what you learned in
   - My implementation's frames per second increased more and more as more frames were captured, with a high of 6.5 frames per second, which is about what I was getting with my OpenCV implementation (6.3 fps). The problem is that there is a "warm up" period where the model is loaded and the inference step also takes time. This results in a bottleneck that I did not experience when I used the OpenCV implementation from HW3.
 
 * Which is a better quality detector: the OpenCV or yours?
-  - I believe the OpenCV was the better quality detector
+  - I believe the OpenCV was the better quality detector.
 
 ### To turn in:
 

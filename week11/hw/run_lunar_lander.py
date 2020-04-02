@@ -32,6 +32,8 @@ if __name__=="__main__":
     training_thr = 3000
     total_itrs = 50000
     successful_steps = []
+    batch_size = 100
+
 
     while steps <= total_itrs:
         new_s, r, done, info = env.step(a)
@@ -47,17 +49,25 @@ if __name__=="__main__":
             model.fit(np.array(X_train),np.array(y_train).reshape(len(y_train),1), epochs = 10, batch_size=20)
 
         if modelTrained:
-            maxr = -1000
-            maxa = None
-            for i in range(100):
-                a1 = np.random.randint(-1000,1000)/1000
-                a2 = np.random.randint(-1000,1000)/1000
-                testa = [a1,a2]
-                r_pred = model.predict(np.array(list(new_s)+list(testa)).reshape(1,len(list(new_s)+list(testa))))
-                if r_pred > maxr:
-                    maxr = r_pred
-                    maxa = testa
-            a = np.array(maxa)
+            #maxr = -1000
+            #maxa = None
+            #for i in range(100):
+            #    a1 = np.random.randint(-1000,1000)/1000
+            #    a2 = np.random.randint(-1000,1000)/1000
+            #    testa = [a1,a2]
+            #    r_pred = model.predict(np.array(list(new_s)+list(testa)).reshape(1,len(list(new_s)+list(testa))))
+            #    if r_pred > maxr:
+            #        maxr = r_pred
+            #        maxa = testa
+            #a = np.array(maxa)
+
+            a_candidates = np.random.uniform(low=-1, high=1, size=(batch_size, 2))
+            s_expanded = np.broadcast_to(new_s, (batch_size, 8))
+            all_candidates = np.concatenate([s_expanded, a_candidates], axis=1)
+            r_pred = model.predict(all_candidates)
+
+            max_idx = np.argmax(r_pred)
+            a = a_candidates[max_idx]
 
         else:
             a = np.array([np.random.randint(-1000,1000)/1000,\
