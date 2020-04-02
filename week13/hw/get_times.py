@@ -1,4 +1,6 @@
-fh = open("apik.out", "r").read().splitlines()
+# Get the total time
+
+fh = open("train.log", "r").read().splitlines()
 
 total = 0
 for l in fh:
