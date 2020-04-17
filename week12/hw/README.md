@@ -12,4 +12,4 @@ ibmcloud sl vs create --hostname=gpfs2 --domain=server.cloud --cpu=2 --memory=40
 ibmcloud sl vs create --hostname=gpfs3 --domain=server.cloud --cpu=2 --memory=4096 --datacenter=wdc04 --san --os=UBUNTU_16_64 --disk=25 --disk=100 key=<key>
 ```
 
-![https://i.ibb.co/7vwbj2z/Screen-Shot-2020-04-17-at-2-27-20-PM.jpg]
+![](https://i.ibb.co/7vwbj2z/Screen-Shot-2020-04-17-at-2-27-20-PM.jpg)
