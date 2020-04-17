@@ -31,4 +31,4 @@ However, when I tried to install GPFS, I got an error when I tried to call `/usr
 
 ![](https://i.ibb.co/RhgfM31/Screen-Shot-2020-04-17-at-4-24-29-PM.jpg)
 
-I tried many ways around this, including editing the `/etc/ssh/sshd_config` (as shown in `HW2`) and tried chamging `PermitRootLogin` to `without-password` but even with this, I am still unable to ssh from one machine to the next. I've tried to get around this bug but have been unable to set up the 3 nodes to be able to communicate, and thus have not been able to move forward with the homework.
+I tried many ways around this, including editing the `/etc/ssh/sshd_config` (as shown in `HW2`) and tried changing `PermitRootLogin` to `without-password` but even with this, I am still unable to ssh from one machine to the next. I've tried to get around this bug but have been unable to set up the 3 nodes to be able to communicate, and thus have not been able to move forward with the homework.
